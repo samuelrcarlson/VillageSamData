@@ -119,12 +119,6 @@ st.title('Job Performance Project')
 st.subheader("Sam Carlson");
 st.write("git: https://github.com/samuelrcarlson/VillageSamData")
 
-with st.beta_expander('How is the payout calculated?'):
-    st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.")
-    st.text("5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.")
-    st.text("3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
-    st.text("Credit Tips are then taxed then paid out")
-
 
 #Encoding Charts happens AFTER user selects preferences...
 
@@ -161,6 +155,9 @@ st.write(graph)
 ######################
 with st.beta_expander('Paycheck approximations'):
     st.dataframe(paycheckDates)
+    st.subheader('How is the payout calculated?')
+    st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
+    st.text("'Payout' represents the approximate take home Income after all deductions and taxes")
 
 ###############
 # Averages df #
