@@ -21,7 +21,7 @@ barCut = .05
 # TO DO: 
 # Separate encoding()
 def scatterPlot(data):
-    chart = alt.Chart(data).mark_point(size=75).properties(
+    chart = alt.Chart(data).mark_square(size=75).properties(
             width=750,
             height=750
     )
@@ -94,6 +94,7 @@ financialData['CHECK'] = (financialData['Hourly Pay'] + financialData['Takehome 
 financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialData['Service Charge (Credit Tips)'])/ financialData['Net Sales']
 
 financialDataCols = list(financialData)
+
 #################
 # Paycheck Math #
 #################
@@ -114,10 +115,10 @@ for i in range(len(paycheckDates)) :
 #############
 # Streamlit #
 #############
+st.set_page_config(page_title="Carlson Data Project", layout='wide')
 
-st.title('Job Performance Project')
-st.subheader("Sam Carlson");
-st.write("git: https://github.com/samuelrcarlson/VillageSamData")
+st.title('Serving Job Performance Project')
+st.subheader("Tracking Financial Data:");
 
 
 #Encoding Charts happens AFTER user selects preferences...
@@ -125,7 +126,7 @@ st.write("git: https://github.com/samuelrcarlson/VillageSamData")
 #############
 #Data Filter#
 #############
-with st.beta_expander('Data Filter Settings'):
+with st.beta_expander('Choose Data to View:'):
     # Filter Date Range
     #startDate = st.date_input('Start Date', datetime.date(2021, 5, 1))
     #endDate = st.date_input('End Date', date.today())
@@ -134,11 +135,11 @@ with st.beta_expander('Data Filter Settings'):
     # Filter Type of Shift
     #allShiftTypes = raw['Shift'].unique().tolist()
     #shiftsSelected = st.multiselect('Shift Type', allShiftTypes, allShiftTypes[0])
-
+    
     # Filter X Axis
-    x = st.selectbox('X-Axis: ',financialDataCols, 0)
+    x = st.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
     # Filter Y Axis
-    y = st.selectbox('Y-Axis:', financialDataCols, 3)
+    y = st.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
 
 ##################
 # Financial Data #
@@ -153,11 +154,11 @@ st.write(graph)
 ######################
 # Paycheck dataframe #
 ######################
-with st.beta_expander('Paycheck approximations'):
-    st.dataframe(paycheckDates)
-    st.subheader('How is the payout calculated?')
-    st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
-    st.text("'Payout' represents the approximate take home Income after all deductions and taxes")
+st.subheader('Paycheck approximations')
+st.dataframe(paycheckDates)
+st.subheader('How is the payout calculated?')
+st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
+st.text("'Payout' represents the approximate take home Income after all deductions and taxes")
 
 ###############
 # Averages df #
@@ -167,10 +168,14 @@ with st.beta_expander('Paycheck approximations'):
 with st.beta_expander('Dataframes'):
     # Raw Data from Google Form
     st.write("Raw Data from Google Form:")
-    st.write(raw)
+    st.dataframe(raw)
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
-    st.write(financialData)
+    st.dataframe(financialData)
     # Averages Data
     st.write("Averages Data:")
-    st.write(averagesdf)
+    st.dataframe(averagesdf)
+
+st.write("Sam Carlson")
+st.write("Computer Science, Data Science & Psychology")
+st.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
