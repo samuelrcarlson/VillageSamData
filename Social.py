@@ -104,10 +104,10 @@ paycheckDates = pd.read_csv('Paydates.csv')
 # .loc[i, "#"] places column per i row
 for i in range(len(paycheckDates)) :
     bundle = financialData.loc[(financialData['Date Worked'] >= paycheckDates.loc[i, "Start"] ) & (financialData['Date Worked'] <= paycheckDates.loc[i, "End"])]
-    paycheckDates.loc[i, 'Payout'] = bundle['CHECK'].sum()
-    paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
     paycheckDates.loc[i, 'Hours Worked'] = bundle['Hours Worked:'].sum()
-    paycheckDates.loc[i, 'Cashout'] = bundle['Cash Tips'].sum()
+    paycheckDates.loc[i, 'Payout'] = bundle['CHECK'].sum()
+    paycheckDates.loc[i, 'Cashout'] = (bundle['Cash Tips'].sum())
+    paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
     paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
 
 
@@ -115,16 +115,23 @@ for i in range(len(paycheckDates)) :
 # Streamlit #
 #############
 
-st.title('VS@BE Personal Financial Performance Project')
-st.header("Sam Carlson");
+st.title('Job Performance Project')
+st.subheader("Sam Carlson");
 st.write("git: https://github.com/samuelrcarlson/VillageSamData")
+
+with st.beta_expander('How is the payout calculated?'):
+    st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.")
+    st.text("5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.")
+    st.text("3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
+    st.text("Credit Tips are then taxed then paid out")
+
 
 #Encoding Charts happens AFTER user selects preferences...
 
 #############
 #Data Filter#
 #############
-with st.beta_expander('Filter Data Settings'):
+with st.beta_expander('Data Filter Settings'):
     # Filter Date Range
     #startDate = st.date_input('Start Date', datetime.date(2021, 5, 1))
     #endDate = st.date_input('End Date', date.today())
@@ -153,7 +160,7 @@ st.write(graph)
 # Paycheck dataframe #
 ######################
 with st.beta_expander('Paycheck approximations'):
-    st.write(paycheckDates)
+    st.dataframe(paycheckDates)
 
 ###############
 # Averages df #
