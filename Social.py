@@ -105,9 +105,11 @@ paycheckDates = pd.read_csv('Paydates.csv')
 for i in range(len(paycheckDates)) :
     bundle = financialData.loc[(financialData['Date Worked'] >= paycheckDates.loc[i, "Start"] ) & (financialData['Date Worked'] <= paycheckDates.loc[i, "End"])]
     paycheckDates.loc[i, 'Payout'] = bundle['CHECK'].sum()
+    paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
     paycheckDates.loc[i, 'Hours Worked'] = bundle['Hours Worked:'].sum()
     paycheckDates.loc[i, 'Cashout'] = bundle['Cash Tips'].sum()
     paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
+
 
 #############
 # Streamlit #
