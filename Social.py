@@ -149,7 +149,7 @@ bigGraph.subheader("Tracking Financial Data:");
 bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
 # Filter Date Range
 
-#settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
+settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
 #startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
 #endDate = settings.date_input('End Date', date.today())
 #domain = [startDate.isoformat(), endDate.isoformat()]
