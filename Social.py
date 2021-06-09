@@ -119,9 +119,11 @@ st.set_page_config(page_title="Carlson Data Project", layout='wide')
 
 ##############
 # Containers #
+# (Structure)#
 ##############
 header = st.beta_container()
 bigGraph = st.beta_container()
+paycheckApp = st.beta_container()
 
 header.title('Serving Job Performance Project')
 header.subheader("Tracking Financial Data:");
@@ -161,14 +163,13 @@ bigGraph.write(graph)
 ######################
 # Paycheck dataframe #
 ######################
+paycheckAppdata, paycheckAppDesc = st.beta_columns(2)
+paycheckAppDesc.header('Paycheck approximations')
+paycheckAppDesc.text("'Payout' represents the approximate Take-home income after all deductions and taxes")
+paycheckAppDesc.subheader('How is the payout calculated?')
+paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
 
-st.header('Paycheck approximations')
-
-st.subheader('How is the payout calculated?')
-st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\n Federal Tax, State Tax, Medicare, Social Security are all deducted.")
-st.text("'Payout' represents the approximate take home Income after all deductions and taxes")
-
-st.dataframe(paycheckDates)
+paycheckAppdata.dataframe(paycheckDates, width = 1300)
 
 ###############
 # Averages df #
