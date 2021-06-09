@@ -117,8 +117,14 @@ for i in range(len(paycheckDates)) :
 #############
 st.set_page_config(page_title="Carlson Data Project", layout='wide')
 
-st.title('Serving Job Performance Project')
-st.subheader("Tracking Financial Data:");
+##############
+# Containers #
+##############
+header = st.beta_container()
+bigGraph = st.beta_container()
+
+header.title('Serving Job Performance Project')
+header.subheader("Tracking Financial Data:");
 
 
 #Encoding Charts happens AFTER user selects preferences...
@@ -126,20 +132,21 @@ st.subheader("Tracking Financial Data:");
 #############
 #Data Filter#
 #############
-with st.beta_expander('Choose Data to View:'):
+with bigGraph.beta_expander('Choose Data to View:'):
+    axisCol, dateCol = st.beta_columns(2)
     # Filter Date Range
-    #startDate = st.date_input('Start Date', datetime.date(2021, 5, 1))
-    #endDate = st.date_input('End Date', date.today())
-    #domain = [startDate.isoformat(), endDate.isoformat()]
+    startDate = dateCol.date_input('Start Date', datetime.date(2021, 5, 1))
+    endDate = dateCol.date_input('End Date', date.today())
+    domain = [startDate.isoformat(), endDate.isoformat()]
 
     # Filter Type of Shift
     #allShiftTypes = raw['Shift'].unique().tolist()
     #shiftsSelected = st.multiselect('Shift Type', allShiftTypes, allShiftTypes[0])
     
     # Filter X Axis
-    x = st.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
+    x = axisCol.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
     # Filter Y Axis
-    y = st.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
+    y = axisCol.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
 
 ##################
 # Financial Data #
@@ -148,17 +155,20 @@ with st.beta_expander('Choose Data to View:'):
 
 financialGraph = scatterPlot(financialData)
 graph = enc(financialGraph, x, y, 'Shift')
-st.write(graph)
+bigGraph.write(graph)
 
 
 ######################
 # Paycheck dataframe #
 ######################
-st.subheader('Paycheck approximations')
-st.dataframe(paycheckDates)
+
+st.header('Paycheck approximations')
+
 st.subheader('How is the payout calculated?')
-st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips")
+st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n 5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n 3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\n Federal Tax, State Tax, Medicare, Social Security are all deducted.")
 st.text("'Payout' represents the approximate take home Income after all deductions and taxes")
+
+st.dataframe(paycheckDates)
 
 ###############
 # Averages df #
