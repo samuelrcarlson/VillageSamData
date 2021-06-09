@@ -126,6 +126,9 @@ bigGraph = st.beta_container()
 paycheckApp = st.beta_container()
 averagesApp = st.beta_container()
 
+##########
+# Header #
+##########
 header.title('Serving Job Performance Project')
 header.subheader("Tracking Financial Data:");
 
