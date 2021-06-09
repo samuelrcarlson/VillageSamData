@@ -123,28 +123,35 @@ st.set_page_config(page_title="Carlson Data Project", layout='wide')
 ##############
 header = st.beta_container()
 bigGraph = st.beta_container()
-paycheckApp = st.beta_container()
 averagesApp = st.beta_container()
+paycheckApp = st.beta_container()
+
 
 ##########
 # Header #
 ##########
-header.title('Serving Job Performance Project')
-header.subheader("Tracking Financial Data:");
+titleCol, infoCol = header.beta_columns(2)
+titleCol.title('Serving Job Performance Project')
+
+infoCol.write("Sam Carlson")
+infoCol.write("Computer Science, Data Science & Psychology")
+infoCol.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
 
 ##################
 # Financial Data #
 # One Big Graph! #
 ##################
+bigGraph.subheader("Tracking Financial Data:");
+
 #############
 #Data Filter#
 #############
-
 bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
-
 # Filter Date Range
-startDate = paycheckAppSet.date_input('Start Date', datetime.date(2021, 5, 1))
-endDate = paycheckAppSet.date_input('End Date', date.today())
+
+settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
+startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
+endDate = settings.date_input('End Date', date.today())
 domain = [startDate.isoformat(), endDate.isoformat()]
 
 # Filter Type of Shift
@@ -152,9 +159,9 @@ domain = [startDate.isoformat(), endDate.isoformat()]
 #shiftsSelected = st.multiselect('Shift Type', allShiftTypes, allShiftTypes[0])
 
 # Filter X Axis
-x = paycheckAppSet.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
+x = settings.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
 # Filter Y Axis
-y = paycheckAppSet.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
+y = settings.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
 
 # Sets data source as financialData dataframe
 financialGraph = scatterPlot(financialData)
@@ -192,8 +199,3 @@ with st.beta_expander('Dataframes'):
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
-
-
-st.write("Sam Carlson")
-st.write("Computer Science, Data Science & Psychology")
-st.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
