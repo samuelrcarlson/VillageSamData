@@ -22,8 +22,8 @@ barCut = .05
 # Separate encoding()
 def scatterPlot(data):
     chart = alt.Chart(data).mark_square(size=75).properties(
-            width=1300,
-            height=750
+            width=1200,
+            height=700
     )
     return chart
 
