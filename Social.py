@@ -124,16 +124,21 @@ st.set_page_config(page_title="Carlson Data Project", layout='wide')
 header = st.beta_container()
 bigGraph = st.beta_container()
 paycheckApp = st.beta_container()
+averagesApp = st.beta_container()
 
 header.title('Serving Job Performance Project')
 header.subheader("Tracking Financial Data:");
 
-
-#Encoding Charts happens AFTER user selects preferences...
-
+##################
+# Financial Data #
+# One Big Graph! #
+##################
 #############
 #Data Filter#
 #############
+#
+#TODO: Move beta expander into column next to graph
+#
 with bigGraph.beta_expander('Choose Data to View:'):
     axisCol, dateCol = st.beta_columns(2)
     # Filter Date Range
@@ -150,31 +155,34 @@ with bigGraph.beta_expander('Choose Data to View:'):
     # Filter Y Axis
     y = axisCol.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
 
-##################
-# Financial Data #
-# One Big Graph! #
-##################
-
+# Sets data source as financialData dataframe
 financialGraph = scatterPlot(financialData)
+# Encodes financialData graph with user selected options.
 graph = enc(financialGraph, x, y, 'Shift')
+# Render Graph
 bigGraph.write(graph)
 
 
-######################
-# Paycheck dataframe #
-######################
+################
+# Paycheck App #
+################
 paycheckApp.header('Paycheck approximations')
 paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
 paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
 paycheckAppDesc.subheader('How is the payout calculated?')
 paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
 
+paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
+
 paycheckAppdata.dataframe(paycheckDates, width = 1300)
 
-###############
-# Averages df #
-###############
-#st.write(averagesdf)
+################
+# Averages App #
+################
+averagesApp.header("Overall Averages:")
+averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
+averagesAppDesc.subheader("Averages gathered from RAW Form data")
+averagesAppdata.dataframe(averagesdf, width = 1300)
 
 with st.beta_expander('Dataframes'):
     # Raw Data from Google Form
@@ -183,9 +191,7 @@ with st.beta_expander('Dataframes'):
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
-    # Averages Data
-    st.write("Averages Data:")
-    st.dataframe(averagesdf)
+
 
 st.write("Sam Carlson")
 st.write("Computer Science, Data Science & Psychology")
