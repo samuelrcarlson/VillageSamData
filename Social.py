@@ -163,8 +163,8 @@ bigGraph.write(graph)
 ######################
 # Paycheck dataframe #
 ######################
-paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
 paycheckApp.header('Paycheck approximations')
+paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
 paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
 paycheckAppDesc.subheader('How is the payout calculated?')
 paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
