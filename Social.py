@@ -143,7 +143,7 @@ header.subheader("Tracking Financial Data:");
 #TODO: Move beta expander into column next to graph
 #
 with bigGraph.beta_expander('Choose Data to View:'):
-    axisCol, dateCol = st.beta_columns(2)
+    axisCol, dateCol = bigGraph.beta_columns(2)
     # Filter Date Range
     startDate = dateCol.date_input('Start Date', datetime.date(2021, 5, 1))
     endDate = dateCol.date_input('End Date', date.today())
