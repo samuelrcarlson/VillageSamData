@@ -22,7 +22,7 @@ barCut = .05
 # Separate encoding()
 def scatterPlot(data):
     chart = alt.Chart(data).mark_square(size=75).properties(
-            width=750,
+            width=1300,
             height=750
     )
     return chart
@@ -139,31 +139,29 @@ header.subheader("Tracking Financial Data:");
 #############
 #Data Filter#
 #############
-#
-#TODO: Move beta expander into column next to graph
-#
-with bigGraph.beta_expander('Choose Data to View:'):
-    axisCol, dateCol = bigGraph.beta_columns(2)
-    # Filter Date Range
-    startDate = dateCol.date_input('Start Date', datetime.date(2021, 5, 1))
-    endDate = dateCol.date_input('End Date', date.today())
-    domain = [startDate.isoformat(), endDate.isoformat()]
 
-    # Filter Type of Shift
-    #allShiftTypes = raw['Shift'].unique().tolist()
-    #shiftsSelected = st.multiselect('Shift Type', allShiftTypes, allShiftTypes[0])
-    
-    # Filter X Axis
-    x = axisCol.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
-    # Filter Y Axis
-    y = axisCol.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
+bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
+
+# Filter Date Range
+startDate = paycheckAppSet.date_input('Start Date', datetime.date(2021, 5, 1))
+endDate = paycheckAppSet.date_input('End Date', date.today())
+domain = [startDate.isoformat(), endDate.isoformat()]
+
+# Filter Type of Shift
+#allShiftTypes = raw['Shift'].unique().tolist()
+#shiftsSelected = st.multiselect('Shift Type', allShiftTypes, allShiftTypes[0])
+
+# Filter X Axis
+x = paycheckAppSet.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
+# Filter Y Axis
+y = paycheckAppSet.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
 
 # Sets data source as financialData dataframe
 financialGraph = scatterPlot(financialData)
 # Encodes financialData graph with user selected options.
 graph = enc(financialGraph, x, y, 'Shift')
 # Render Graph
-bigGraph.write(graph)
+bigGraphCol.write(graph)
 
 
 ################
