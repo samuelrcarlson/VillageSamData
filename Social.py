@@ -163,7 +163,7 @@ bigGraph.write(graph)
 ######################
 # Paycheck dataframe #
 ######################
-paycheckAppdata, paycheckAppDesc = st.beta_columns(2)
+paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
 paycheckAppDesc.header('Paycheck approximations')
 paycheckAppDesc.text("'Payout' represents the approximate Take-home income after all deductions and taxes")
 paycheckAppDesc.subheader('How is the payout calculated?')
