@@ -226,7 +226,7 @@ bigGraphCol.write(graph)
 ################
 averagesApp.header("Overall Averages:")
 averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
-averagesAppdata.dataframe(averagesdf, width = 1300)
+averagesAppdata.dataframe(averagesdf, width = 1100)
 
 #######################
 # Sales Breakdown App #
@@ -254,7 +254,7 @@ paycheckAppdata.dataframe(paycheckDates, width = 1300)
 # Total Sales App #
 #####################
 sumApp.header("Total Sales:")
-sumApp.dataframe(sumdf, width = 1300)
+sumApp.dataframe(sumdf, width = 1100)
 
 
 
