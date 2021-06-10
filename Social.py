@@ -18,8 +18,6 @@ socSec = .062
 draCut = .03
 barCut = .05
 
-# TO DO: 
-# Separate encoding()
 def scatterPlot(data):
     chart = alt.Chart(data).mark_square(size=75).properties(
             width=1100,
