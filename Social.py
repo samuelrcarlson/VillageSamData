@@ -19,14 +19,14 @@ draCut = .03
 barCut = .05
 
 def scatterPlot(data):
-    chart = alt.Chart(data).mark_square(size=100).properties(
+    chart = alt.Chart(data).mark_circle(size=125).properties(
             width=1100,
             height=700
     )
     return chart
 
 def barChart(data):
-    chart = alt.Chart(data).mark_bar(size = 10).properties(
+    chart = alt.Chart(data).mark_bar().properties(
         width=1100,
         height=700
     )
@@ -41,7 +41,7 @@ def enc(chart, x, y, group):
     return chart
 
 def barChartConv(chart):
-    chart = chart.mark_bar()
+    chart = chart.mark_bar(size=15)
     return chart
 
 ##############
@@ -167,9 +167,9 @@ for i in range(len(paycheckDates)) :
     paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
 
 
-#############
+########################################################################
 # Streamlit #
-#############
+########################################################################
 st.set_page_config(page_title="Carlson Data Project", layout='wide')
 
 ##############
@@ -181,7 +181,6 @@ bigGraph = st.beta_container()
 averagesApp = st.beta_container()
 sumApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
-payBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 footer = st.beta_container()
 
@@ -190,24 +189,19 @@ testBed = st.beta_container()
 ##########
 # Header #
 ##########
-titleCol, infoCol = header.beta_columns(2)
-titleCol.title('Serving Job Performance Project')
+header.title('Serving Job Performance Project')
 
-infoCol.write("Sam Carlson")
-infoCol.write("Computer Science, Data Science & Psychology")
-infoCol.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
 
 ##################
 # Financial Data #
 # Highlights!    #
 ##################
 bigGraph.header("Tracking Financial Data:");
-bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
-
+bigGraphCol, emptyCol = bigGraph.beta_columns(2)
 #############
 #Data Filter#
 #############
-settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
+settings =  bigGraphCol.beta_expander('Graph Settings', expanded=True)
 # Filter Date Range
 #startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
 #endDate = settings.date_input('End Date', date.today())
@@ -233,30 +227,29 @@ bigGraphCol.write(graph)
 # Averages App #
 ################
 averagesApp.header("Overall Averages:")
-averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
-averagesAppdata.dataframe(averagesdf, width = 1100)
+averagesApp.dataframe(averagesdf, width = 1100)
 
 #######################
 # Total Sales App #
 #######################
 salesBreakdownApp.header("Sales Breakdown Over Time:")
-dateSalesBreakdown, shiftSalesBreakdown = salesBreakdownApp.beta_columns(2)
-dateSalesBreakdown.subheader("Per Day:")
-dateSalesBreakdown.write(stackedChart)
-shiftSalesBreakdown.subheader("Per Shift Type:")
-shiftSalesBreakdown.write(shiftBreakdownChart)
+
+salesBreakdownApp.subheader("Per Day:")
+salesBreakdownApp.write(stackedChart)
+salesBreakdownApp.subheader("Per Shift Type:")
+salesBreakdownApp.write(shiftBreakdownChart)
 #salesBreakdownApp.write(netSaleBreakdown)
 
 ################
 # Paycheck App #
 ################
 paycheckApp.header('Paycheck Approximations:')
-paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
-paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
-paycheckAppDesc.subheader('How is the payout calculated?')
-paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
-paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-paycheckAppdata.dataframe(paycheckDates, width = 1300)
+explanation = paycheckApp.beta_expander('Explanation:')
+explanation.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
+explanation.subheader('How is the payout calculated?')
+explanation.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
+explanation.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
+paycheckApp.dataframe(paycheckDates, width = 1300)
 
 #####################
 # Total Sales App #
@@ -267,7 +260,6 @@ sumApp.dataframe(sumdf, width = 1100)
 ##################
 # Raw Dataframes #
 ##################
-
 with footer.beta_expander('Dataframes'):
     # Raw Data from Google Form
     st.write("Raw Data from Google Form:")
@@ -275,6 +267,13 @@ with footer.beta_expander('Dataframes'):
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
+footer.write("Sam Carlson")
+footer.write("Computer Science, Data Science & Psychology")
+footer.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
 
-with testBed.beta_expander('Test Space:'):
-    st.write(paycheckDates['Payout'].head(6).mean())
+#with testBed.beta_expander('Test Space:'):
+#    st.write(paycheckDates['Payout'].head(6).mean())
+
+#    financialBar = barChartConv(financialGraph)
+#    financialBar = enc(financialBar, 'Date Worked', 'Takehome Credit Tips', 'Shift')
+#    st.write(financialBar)
