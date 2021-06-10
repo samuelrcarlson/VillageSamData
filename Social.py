@@ -113,6 +113,10 @@ stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
     height=600
 )
 
+shiftBreakdownChart = stackedChart.encode(
+    y='Shift',
+)
+
 #################
 # Paycheck Math #
 #################
@@ -204,8 +208,13 @@ paycheckAppdata.dataframe(paycheckDates, width = 1300)
 # Sales Breakdown App #
 #######################
 salesBreakdownApp.header("Sales Breakdown Over Time:")
-salesBreakdownApp.write(stackedChart)
+dateSalesBreakdown, shiftSalesBreakdown = salesBreakdownApp.beta_columns(2)
+dateSalesBreakdown.subheader("Per Day:")
+dateSalesBreakdown.write(stackedChart)
+shiftSalesBreakdown.subheader("Per Shift Type:")
+shiftSalesBreakdown.write(shiftBreakdownChart)
 #salesBreakdownApp.write(netSaleBreakdown)
+
 ################
 # Averages App #
 ################
