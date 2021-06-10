@@ -98,9 +98,19 @@ financialDataCols = list(financialData)
 ######################
 # Net sale Breakdown #
 ######################
-
 netSaleBreakdown = raw[["Date Worked", "Shift", "Net Sales", "Food Sales", "Liquor Sales", "Beer Sales", "Wine Sales"]].copy()
-
+stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
+  ['Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"],
+  as_=['Sales', 'Net Sales']
+).mark_bar().encode(
+  x='Net Sales:Q',
+  y='Date Worked',
+  color='Sales:N',
+  tooltip=['Date Worked', 'Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"]).interactive(
+    ).properties(
+    width=1100,
+    height=600
+)
 
 #################
 # Paycheck Math #
@@ -131,6 +141,7 @@ st.set_page_config(page_title="Carlson Data Project", layout='wide')
 header = st.beta_container()
 bigGraph = st.beta_container()
 averagesApp = st.beta_container()
+salesBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 
 ##########
@@ -153,8 +164,8 @@ bigGraph.subheader("Tracking Financial Data:");
 #Data Filter#
 #############
 bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
-# Filter Date Range
 
+# Filter Date Range
 settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
 #startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
 #endDate = settings.date_input('End Date', date.today())
@@ -180,22 +191,25 @@ bigGraphCol.write(graph)
 ################
 # Paycheck App #
 ################
-paycheckApp.header('Paycheck approximations')
+paycheckApp.header('Paycheck Approximations:')
 paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
 paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
 paycheckAppDesc.subheader('How is the payout calculated?')
 paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
-
 paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-
 paycheckAppdata.dataframe(paycheckDates, width = 1300)
+
+#######################
+# Sales Breakdown App #
+#######################
+salesBreakdownApp.header("Sales Breakdown Over Time:")
+salesBreakdownApp.write(stackedChart)
 
 ################
 # Averages App #
 ################
 averagesApp.header("Overall Averages:")
 averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
-averagesAppDesc.subheader("Averages gathered from RAW Form data")
 averagesAppdata.dataframe(averagesdf, width = 1300)
 
 with st.beta_expander('Dataframes'):
