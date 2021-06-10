@@ -107,10 +107,9 @@ stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
   x='Net Sales:Q',
   y='Date Worked:T',
   color='Sales:N',
-  tooltip=['Date Worked', 'Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"]).interactive(
-    ).properties(
+  tooltip=['Date Worked', 'Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"]).properties(
     width=1100,
-    height=600
+    height=400
 )
 
 shiftBreakdownChart = stackedChart.encode(
@@ -147,6 +146,7 @@ header = st.beta_container()
 bigGraph = st.beta_container()
 averagesApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
+payBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 
 ##########
@@ -194,15 +194,11 @@ bigGraphCol.write(graph)
 
 
 ################
-# Paycheck App #
+# Averages App #
 ################
-paycheckApp.header('Paycheck Approximations:')
-paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
-paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
-paycheckAppDesc.subheader('How is the payout calculated?')
-paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
-paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-paycheckAppdata.dataframe(paycheckDates, width = 1300)
+averagesApp.header("Overall Averages:")
+averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
+averagesAppdata.dataframe(averagesdf, width = 1300)
 
 #######################
 # Sales Breakdown App #
@@ -216,11 +212,22 @@ shiftSalesBreakdown.write(shiftBreakdownChart)
 #salesBreakdownApp.write(netSaleBreakdown)
 
 ################
-# Averages App #
+# Paycheck App #
 ################
-averagesApp.header("Overall Averages:")
-averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
-averagesAppdata.dataframe(averagesdf, width = 1300)
+paycheckApp.header('Paycheck Approximations:')
+paycheckAppdata, paycheckAppDesc = paycheckApp.beta_columns(2)
+paycheckAppDesc.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
+paycheckAppDesc.subheader('How is the payout calculated?')
+paycheckAppDesc.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
+paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
+paycheckAppdata.dataframe(paycheckDates, width = 1300)
+
+#####################
+# Pay Breakdown App #
+#####################
+
+
+
 
 with st.beta_expander('Dataframes'):
     # Raw Data from Google Form
