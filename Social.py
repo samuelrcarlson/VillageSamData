@@ -163,7 +163,7 @@ infoCol.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData"
 # Financial Data #
 # One Big Graph! #
 ##################
-bigGraph.subheader("Tracking Financial Data:");
+bigGraph.header("Tracking Financial Data:");
 
 #############
 #Data Filter#
