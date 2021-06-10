@@ -99,12 +99,13 @@ financialDataCols = list(financialData)
 # Net sale Breakdown #
 ######################
 netSaleBreakdown = raw[["Date Worked", "Shift", "Net Sales", "Food Sales", "Liquor Sales", "Beer Sales", "Wine Sales"]].copy()
+
 stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
   ['Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"],
   as_=['Sales', 'Net Sales']
 ).mark_bar().encode(
   x='Net Sales:Q',
-  y='Date Worked',
+  y='Date Worked:T',
   color='Sales:N',
   tooltip=['Date Worked', 'Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"]).interactive(
     ).properties(
@@ -204,7 +205,7 @@ paycheckAppdata.dataframe(paycheckDates, width = 1300)
 #######################
 salesBreakdownApp.header("Sales Breakdown Over Time:")
 salesBreakdownApp.write(stackedChart)
-
+#salesBreakdownApp.write(netSaleBreakdown)
 ################
 # Averages App #
 ################
