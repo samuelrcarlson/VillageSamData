@@ -25,6 +25,13 @@ def scatterPlot(data):
     )
     return chart
 
+def barChart(data):
+    chart = alt.Chart(data).mark_bar(size = 10).properties(
+        width=1100,
+        height=700
+    )
+    return chart
+
 def enc(chart, x, y, group):
     chart = chart.encode(
     x=x,
@@ -34,7 +41,7 @@ def enc(chart, x, y, group):
     return chart
 
 def barChartConv(chart):
-    chart = chart.mark_bar(size = 10)
+    chart = chart.mark_bar()
     return chart
 
 ##############
@@ -178,6 +185,8 @@ payBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 footer = st.beta_container()
 
+testBed = st.beta_container()
+
 ##########
 # Header #
 ##########
@@ -266,3 +275,6 @@ with footer.beta_expander('Dataframes'):
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
+
+with testBed.beta_expander('Test Space:'):
+    st.write(paycheckDates['Payout'].head(6).mean())
