@@ -130,7 +130,7 @@ netSaleBreakdown = raw[["Date Worked", "Shift", "Net Sales", "Food Sales", "Liqu
 stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
   ['Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"],
   as_=['Sales', 'Net Sales']
-).mark_bar().encode(
+).mark_bar(size = 9).encode(
   x='Net Sales:Q',
   y='Date Worked:T',
   color='Sales:N',
@@ -139,7 +139,7 @@ stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
     height=400
 )
 
-shiftBreakdownChart = stackedChart.encode(
+shiftBreakdownChart = stackedChart.mark_bar(size = 75).encode(
     y='Shift',
 )
 
