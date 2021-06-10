@@ -50,8 +50,6 @@ raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
 ############
 # Average Hours per Shift
 avgHoursWorked = raw["Hours Worked:"].mean()
-# All Credit Tips Recorded
-totalTips = (raw["Service Charge (Credit Tips)"].sum() + raw["Cash Tips"].sum())
 # Average Net Sales
 avgNetSales = raw["Net Sales"].mean()
 # Average Credit Tips per Shift
@@ -68,11 +66,40 @@ averageData = {'Avg Hours per Shift': [avgHoursWorked],
         'Avg Credit Tips': [avgCrdtTips],
         'Avg Cash Tips': [avgCashTips],
         'Avg Tips per Hour': [avgTipPerHour],
-        'Avg Tip Percent': [avgTipPercent],
-        'Sum of Tips': [totalTips]
+        'Avg Tip Percent': [avgTipPercent]
        }
-
 averagesdf = pd.DataFrame(data=averageData)
+
+############
+# Sum Data #
+############
+# Total Hours Worked
+sumHoursWorked = raw["Hours Worked:"].sum()
+# All Tips Recorded
+totalTips = ((raw["Service Charge (Credit Tips)"].sum()) + (raw["Cash Tips"].sum()))
+# All Credit Tips
+sumCredtTips = raw["Service Charge (Credit Tips)"].sum()
+# All Cash Tipe
+sumCashTips = raw["Cash Tips"].sum()
+# All Food Sales
+sumFoodSales = raw['Food Sales'].sum()
+# All Beer
+sumBeerSales = raw['Beer Sales'].sum()
+# All Wine
+sumWineSales = raw['Wine Sales'].sum()
+# All Liquor
+sumLiquorSales = raw['Liquor Sales'].sum()
+
+sumData = {'Total Hours': [sumHoursWorked],
+        'Total Tips': [totalTips],
+        'Credit Tips': [sumCredtTips],
+        'Cash Tips': [sumCashTips],
+        'Total Food Sales': [sumFoodSales],
+        'Total Beer Sales': [sumBeerSales],
+        'Total Wine Sales': [sumWineSales],
+        'Total Liquor Sales': [sumLiquorSales]
+       }
+sumdf = pd.DataFrame(data=sumData)
 
 ##################
 # Main Dataframe #
@@ -145,6 +172,7 @@ st.set_page_config(page_title="Carlson Data Project", layout='wide')
 header = st.beta_container()
 bigGraph = st.beta_container()
 averagesApp = st.beta_container()
+sumApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
 payBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
@@ -223,9 +251,10 @@ paycheckAppDesc.text("Payout isn't 100% accurate because Breakfast shifts includ
 paycheckAppdata.dataframe(paycheckDates, width = 1300)
 
 #####################
-# Pay Breakdown App #
+# Total Sales App #
 #####################
-
+sumApp.header("Total Sales:")
+sumApp.dataframe(sumdf, width = 1300)
 
 
 
