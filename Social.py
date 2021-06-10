@@ -19,7 +19,7 @@ draCut = .03
 barCut = .05
 
 def scatterPlot(data):
-    chart = alt.Chart(data).mark_square(size=75).properties(
+    chart = alt.Chart(data).mark_square(size=100).properties(
             width=1100,
             height=700
     )
@@ -30,9 +30,9 @@ def enc(chart, x, y, group):
     x=x,
     y=y,
     color=group,
-    tooltip=[x, y, group, 'Date Worked']).interactive(
-    )
+    tooltip=[x, y, group, 'Date Worked'])
     return chart
+
 
 
 ##############
@@ -174,6 +174,7 @@ sumApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
 payBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
+footer = st.beta_container()
 
 ##########
 # Header #
@@ -256,7 +257,7 @@ sumApp.dataframe(sumdf, width = 1100)
 
 
 
-with st.beta_expander('Dataframes'):
+with footer.beta_expander('Dataframes'):
     # Raw Data from Google Form
     st.write("Raw Data from Google Form:")
     st.dataframe(raw)
