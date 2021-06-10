@@ -244,12 +244,13 @@ salesBreakdownApp.write(shiftBreakdownChart)
 # Paycheck App #
 ################
 paycheckApp.header('Paycheck Approximations:')
+paycheckApp.dataframe(paycheckDates, width = 1300)
 explanation = paycheckApp.beta_expander('Explanation:')
 explanation.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
-explanation.subheader('How is the payout calculated?')
+explanation.subheader("How is the 'Payout' calculated?")
 explanation.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
 explanation.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-paycheckApp.dataframe(paycheckDates, width = 1300)
+
 
 #####################
 # Total Sales App #
