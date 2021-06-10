@@ -95,6 +95,13 @@ financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialDa
 
 financialDataCols = list(financialData)
 
+######################
+# Net sale Breakdown #
+######################
+
+netSaleBreakdown = raw[["Date Worked", "Shift", "Net Sales", "Food Sales", "Liquor Sales", "Beer Sales", "Wine Sales"]].copy()
+
+
 #################
 # Paycheck Math #
 #################
@@ -125,7 +132,6 @@ header = st.beta_container()
 bigGraph = st.beta_container()
 averagesApp = st.beta_container()
 paycheckApp = st.beta_container()
-
 
 ##########
 # Header #
