@@ -33,7 +33,9 @@ def enc(chart, x, y, group):
     tooltip=[x, y, group, 'Date Worked'])
     return chart
 
-
+def barChartConv(chart):
+    chart = chart.mark_bar(size = 10)
+    return chart
 
 ##############
 # RAW import #
@@ -188,17 +190,16 @@ infoCol.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData"
 
 ##################
 # Financial Data #
-# One Big Graph! #
+# Highlights!    #
 ##################
 bigGraph.header("Tracking Financial Data:");
+bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
 
 #############
 #Data Filter#
 #############
-bigGraphCol, paycheckAppSet = bigGraph.beta_columns(2)
-
-# Filter Date Range
 settings =  paycheckAppSet.beta_expander('Graph Settings', expanded=True)
+# Filter Date Range
 #startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
 #endDate = settings.date_input('End Date', date.today())
 #domain = [startDate.isoformat(), endDate.isoformat()]
@@ -219,7 +220,6 @@ graph = enc(financialGraph, x, y, 'Shift')
 # Render Graph
 bigGraphCol.write(graph)
 
-
 ################
 # Averages App #
 ################
@@ -228,7 +228,7 @@ averagesAppdata, averagesAppDesc = averagesApp.beta_columns(2)
 averagesAppdata.dataframe(averagesdf, width = 1100)
 
 #######################
-# Sales Breakdown App #
+# Total Sales App #
 #######################
 salesBreakdownApp.header("Sales Breakdown Over Time:")
 dateSalesBreakdown, shiftSalesBreakdown = salesBreakdownApp.beta_columns(2)
@@ -255,7 +255,9 @@ paycheckAppdata.dataframe(paycheckDates, width = 1300)
 sumApp.header("Total Sales:")
 sumApp.dataframe(sumdf, width = 1100)
 
-
+##################
+# Raw Dataframes #
+##################
 
 with footer.beta_expander('Dataframes'):
     # Raw Data from Google Form
