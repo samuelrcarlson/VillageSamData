@@ -251,8 +251,11 @@ explanation.subheader("'Payout' represents the approximate Take-home income afte
 explanation.subheader("How is the 'Payout' calculated?")
 explanation.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
 explanation.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-
-
+explanation.subheader("Takehome Percentage:")
+explanation.text("Takehome percentage represents how much of my earned Credit Tips aren't being deducted to compensate DRAs/Bartenders")
+explanation.text("Weeks where my Alcohol sand Food Sales are low; but my Tip Percentages are high raise this percentage")
+explanation.subheader("Old Job Pay")
+explanation.text("$14.50/Hour * .92 , to represent why I left my old job.")
 #####################
 # Total Sales App #
 #####################
