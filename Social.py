@@ -165,6 +165,7 @@ for i in range(len(paycheckDates)) :
     paycheckDates.loc[i, 'Cashout'] = (bundle['Cash Tips'].sum())
     paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
     paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
+paycheckDates['Old Job Pay'] = ((paycheckDates['Hours Worked'] * 14.50) * .92)
 
 
 ########################################################################
