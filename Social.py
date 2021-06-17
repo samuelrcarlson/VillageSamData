@@ -18,6 +18,8 @@ socSec = .062
 draCut = .03
 barCut = .05
 
+today = date.today().isoformat()
+
 def scatterPlot(data):
     chart = alt.Chart(data).mark_circle(size=125).properties(
             width=1100,
@@ -159,6 +161,7 @@ shiftBreakdownChart = stackedChart.mark_bar(size = 75).encode(
 #################
 #Import .csv with Pay period groupings.
 paycheckDates = pd.read_csv('Paydates.csv')
+paycheckDates = paycheckDates[paycheckDates['Start'] < today]
 
 # Compare each financialData date worked and group into appropriate pay periods
 # .loc[i, "#"] places column per i row
