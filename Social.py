@@ -157,6 +157,24 @@ shiftBreakdownChart = stackedChart.mark_bar(size = 75).encode(
 )
 
 #################
+# Tip Breakdown #
+#################
+tipBreakdown = raw[["Date Worked", "Net Sales", "Service Charge (Credit Tips)", "Cash Tips"]].copy()
+tipBreakdown['Average Tip Percentage'] = (tipBreakdown['Service Charge (Credit Tips)'] + tipBreakdown['Cash Tips']) / tipBreakdown['Net Sales']
+
+stackedTipChart = alt.Chart(tipBreakdown).transform_fold(
+  ["Service Charge (Credit Tips)", "Cash Tips"],
+  as_=['Tip', 'Tips']
+).mark_bar(size = 9).encode(
+  x='Date Worked:T',
+  y='Tips:Q',
+  color='Tip:N',
+  tooltip=["Date Worked", "Average Tip Percentage", "Service Charge (Credit Tips)", "Cash Tips"]).properties(
+    width=1100,
+    height=400
+)
+
+#################
 # Paycheck Math #
 #################
 #Import .csv with Pay period groupings.
@@ -189,6 +207,7 @@ bigGraph = st.beta_container()
 averagesApp = st.beta_container()
 sumApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
+tipBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 footer = st.beta_container()
 
@@ -268,6 +287,14 @@ explanation.text("$14.50/Hour * .92 , to represent why I left my old job.")
 #####################
 sumApp.header("Total Sales:")
 sumApp.dataframe(sumdf, width = 1100)
+
+
+#####################
+# Personal Tip Data #
+#####################
+tipBreakdownApp.header('Tip Breakdown')
+#tipBreakdownApp.write(tipBreakdown)
+tipBreakdownApp.write(stackedTipChart)
 
 ##################
 # Raw Dataframes #
