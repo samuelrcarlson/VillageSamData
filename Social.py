@@ -129,6 +129,10 @@ financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialDa
 
 financialDataCols = list(financialData)
 
+#
+#
+#
+
 ######################
 # Net sale Breakdown #
 ######################
@@ -273,7 +277,7 @@ with footer.beta_expander('Dataframes'):
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
 footer.write("Sam Carlson")
-footer.write("Computer Science, Data Science & Psychology")
+footer.write("Computer Science, Data Science, and Psychology")
 footer.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
 
 #with testBed.beta_expander('Test Space:'):
