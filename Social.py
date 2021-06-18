@@ -11,6 +11,8 @@ import streamlit as st
 import datetime
 from datetime import date
 
+
+deduction = 0.05
 fedTax = .079
 stateTax = .0398
 medicare = .01452
@@ -127,9 +129,14 @@ financialData['Alcohol Cut'] = ((financialData['Liquor Sales'] + financialData['
 financialData['Takehome Credit Tips'] = financialData['Service Charge (Credit Tips)'] - (financialData['DRA Cut'] + financialData['Alcohol Cut'])
 # Calculate Hourly Rate pay ($3.13)
 financialData['Hourly Pay'] = ((financialData['Hours Worked:'] * 3.13))
-# Calculate how 
-financialData['CHECK'] = (financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) - (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * fedTax) + ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * stateTax)+ ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * medicare)+ ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * socSec))
-financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialData['Service Charge (Credit Tips)'])/ financialData['Net Sales']
+#Calculate Deductions
+financialData['401k'] = (financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * deduction
+# Calculate Taxes and Deductions
+financialData['Taxes'] = (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * fedTax) + ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * stateTax)+ ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * medicare) + ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * socSec))
+# Calculate Check payout after Tax/Deductions
+financialData['CHECK'] = (financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) - (financialData['401k'] + financialData['Taxes'])
+
+financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialData['Service Charge (Credit Tips)']) / financialData['Net Sales']
 
 financialDataCols = list(financialData)
 
