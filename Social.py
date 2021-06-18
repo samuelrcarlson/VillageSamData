@@ -82,6 +82,8 @@ averagesdf = pd.DataFrame(data=averageData)
 ############
 # Sum Data #
 ############
+# Total Shifts Worked
+sumShiftsWorked = len(raw)
 # Total Hours Worked
 sumHoursWorked = raw["Hours Worked:"].sum()
 # All Tips Recorded
@@ -126,7 +128,7 @@ financialData['Takehome Credit Tips'] = financialData['Service Charge (Credit Ti
 # Calculate Hourly Rate pay ($3.13)
 financialData['Hourly Pay'] = ((financialData['Hours Worked:'] * 3.13))
 # Calculate how 
-financialData['CHECK'] = (financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) - (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * fedTax) - (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * stateTax)) + (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * medicare) + ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * socSec)))
+financialData['CHECK'] = (financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) - (((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * fedTax) + ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * stateTax)+ ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * medicare)+ ((financialData['Hourly Pay'] + financialData['Takehome Credit Tips']) * socSec))
 financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialData['Service Charge (Credit Tips)'])/ financialData['Net Sales']
 
 financialDataCols = list(financialData)
@@ -217,7 +219,6 @@ testBed = st.beta_container()
 # Header #
 ##########
 header.title('Serving Job Performance Project')
-
 
 ##################
 # Financial Data #
