@@ -56,6 +56,16 @@ raw = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9s3a6JIv
 #Adjust Date Time for raw data
 raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
 
+#######################
+# Actual Paystub Data #
+#######################
+#Import Actual Paystub Data
+rawstub = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vTIT-QimZzDIgIWILbYzEvIslI7XhvNKOGiQy5Ndx_ARExGHHJAfKTkC-G33n-WoG0ozvirbccqwleb/pub?output=xlsx")
+#Adjust Pay Date for processing
+rawstub['Pay Date'] = pd.to_datetime(rawstub['Pay Date'])
+
+#paystubdf = rawstub[["", ""]].copy
+
 ############
 # Averages #
 ############
@@ -159,6 +169,7 @@ stackedChart = alt.Chart(netSaleBreakdown).transform_fold(
   tooltip=['Date Worked', 'Food Sales', 'Liquor Sales', "Beer Sales", "Wine Sales"]).properties(
     width=1100,
     height=400
+    
 )
 
 shiftBreakdownChart = stackedChart.mark_bar(size = 75).encode(
@@ -199,6 +210,10 @@ for i in range(len(paycheckDates)) :
     paycheckDates.loc[i, 'Cashout'] = (bundle['Cash Tips'].sum())
     paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
     paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
+    #temp
+    paycheckDates.loc[i, 'Takehome Credit Tips'] = bundle['Takehome Credit Tips'].sum()
+    paycheckDates.loc[i, 'Taxes'] = bundle['Taxes'].sum()
+    paycheckDates.loc[i, '401k'] = bundle['401k'].sum()
 paycheckDates['Old Job Pay'] = ((paycheckDates['Hours Worked'] * 14.50) * .92)
 
 
@@ -311,6 +326,8 @@ with footer.beta_expander('Dataframes'):
     # Raw Data from Google Form
     st.write("Raw Data from Google Form:")
     st.dataframe(raw)
+    st.write("Raw Paystub Data:")
+    st.dataframe(rawstub)
     # Filtered and Calculated Data
     st.write("Filtered and Calculated Data:")
     st.dataframe(financialData)
