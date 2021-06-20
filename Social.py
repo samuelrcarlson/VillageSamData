@@ -199,7 +199,7 @@ stackedTipChart = alt.Chart(tipBreakdown).transform_fold(
 #################
 #Import .csv with Pay period groupings.
 paycheckDates = pd.read_csv('Paydates.csv')
-paycheckDates = paycheckDates[paycheckDates['Start'] < today]
+paycheckDates = paycheckDates[paycheckDates['Start'] <= today]
 
 # Compare each financialData date worked and group into appropriate pay periods
 # .loc[i, "#"] places column per i row
