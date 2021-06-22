@@ -9,7 +9,7 @@ import pandas as pd
 import altair as alt
 import streamlit as st
 import datetime
-from datetime import date
+from datetime import date, datetime
 
 
 deduction = 0.05
@@ -55,10 +55,13 @@ def barChartConv(chart):
 raw = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9s3a6JIvnQdmjhCmAXajFqFeCkntFIr9v6t8aAHjJxBZjD09PZcajqwTt1Gjk5BWGzb-B0XzflX2_/pub?output=xlsx")
 #Adjust Date Time for raw data
 raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
+
+# .loc[i, "#"] places column per i row
+for i in range(len(raw)) :
 #raw['Clock-in'] = pd.to_timedelta(raw['Clock-in'])
 #raw['Clock-in'] = raw['Clock-in'] / pd.offsets.Minute(1)
-#raw['Hours Worked:'] =  pd.to_datetime(raw['Clock-in']) -  pd.to_datetime(raw['Clock-out'])
-
+    raw.loc[i, 'Hours Worked:'] = datetime.combine(date.today(), raw.loc[i, 'Clock-out']) - datetime.combine(date.today(), raw.loc[i, 'Clock-in'])
+    raw.loc[i, 'Hours Worked:'] = raw.loc[i, 'Hours Worked:'].total_seconds()/(60*60)
 
 #######################
 # Actual Paystub Data #
