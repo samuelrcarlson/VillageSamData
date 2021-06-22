@@ -55,11 +55,9 @@ def barChartConv(chart):
 raw = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9s3a6JIvnQdmjhCmAXajFqFeCkntFIr9v6t8aAHjJxBZjD09PZcajqwTt1Gjk5BWGzb-B0XzflX2_/pub?output=xlsx")
 #Adjust Date Time for raw data
 raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
-
+# Calculate 'Hours Worked:' by combining recorded clock in/out times, converting to seconds and dividing by 3600 (seconds in an hour)
 # .loc[i, "#"] places column per i row
 for i in range(len(raw)) :
-#raw['Clock-in'] = pd.to_timedelta(raw['Clock-in'])
-#raw['Clock-in'] = raw['Clock-in'] / pd.offsets.Minute(1)
     raw.loc[i, 'Hours Worked:'] = datetime.combine(date.today(), raw.loc[i, 'Clock-out']) - datetime.combine(date.today(), raw.loc[i, 'Clock-in'])
     raw.loc[i, 'Hours Worked:'] = raw.loc[i, 'Hours Worked:'].total_seconds()/(60*60)
 
@@ -70,8 +68,6 @@ for i in range(len(raw)) :
 rawstub = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vTIT-QimZzDIgIWILbYzEvIslI7XhvNKOGiQy5Ndx_ARExGHHJAfKTkC-G33n-WoG0ozvirbccqwleb/pub?output=xlsx")
 #Adjust Pay Date for processing
 rawstub['Pay Date'] = pd.to_datetime(rawstub['Pay Date'])
-
-#paystubdf = rawstub[["", ""]].copy
 
 ############
 # Averages #
@@ -243,8 +239,6 @@ tipBreakdownApp = st.beta_container()
 paycheckApp = st.beta_container()
 footer = st.beta_container()
 
-testBed = st.beta_container()
-
 ##########
 # Header #
 ##########
@@ -315,15 +309,16 @@ salesBreakdownApp.write(shiftBreakdownChart)
 paycheckApp.header('Paycheck Approximations:')
 paycheckApp.dataframe(paycheckDates, width = 1300)
 explanation = paycheckApp.beta_expander('Explanation:')
-explanation.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
-explanation.subheader("How is the 'Payout' calculated?")
-explanation.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
-explanation.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
-explanation.subheader("Takehome Percentage:")
-explanation.text("Takehome percentage represents how much of my earned Credit Tips aren't being deducted to compensate DRAs/Bartenders")
-explanation.text("Weeks where my Alcohol sand Food Sales are low; but my Tip Percentages are high raise this percentage")
-explanation.subheader("Old Job Pay")
-explanation.text("$14.50/Hour * .92 , to represent why I left my old job.")
+with explanation:
+    st.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
+    st.subheader("How is the 'Payout' calculated?")
+    st.text("Income consists of Credit Tips, Cash tips, and an Hourly Wage.\n5% of Alcohol Sales go to Bartenders, deducted from Credit Tips.\n3% of Food Sales go to Dining Room Attendants, deducted from Credit Tips.\nFederal Tax, State Tax, Medicare, Social Security are all deducted.")
+    st.text("Payout isn't 100% accurate because Breakfast shifts include alcohol sales with no bartender to compensate. \nWhile also tracking Lunch alcohol sales which does require bartender compensation.")
+    st.subheader("Takehome Percentage:")
+    st.text("Takehome percentage represents how much of my earned Credit Tips aren't being deducted to compensate DRAs/Bartenders")
+    st.text("Weeks where my Alcohol sand Food Sales are low; but my Tip Percentages are high raise this percentage")
+    st.subheader("Old Job Pay")
+    st.text("$14.50/Hour * .92 , to represent why I left my old job.")
 
 
 #####################
@@ -348,10 +343,3 @@ with footer.beta_expander('Dataframes'):
 footer.write("Sam Carlson")
 footer.write("Computer Science, Data Science, and Psychology")
 footer.write("Link to Github: https://github.com/samuelrcarlson/VillageSamData")
-
-#with testBed.beta_expander('Test Space:'):
-#    st.write(paycheckDates['Payout'].head(6).mean())
-
-#    financialBar = barChartConv(financialGraph)
-#    financialBar = enc(financialBar, 'Date Worked', 'Takehome Credit Tips', 'Shift')
-#    st.write(financialBar)
