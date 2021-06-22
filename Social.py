@@ -24,14 +24,14 @@ today = date.today().isoformat()
 
 def scatterPlot(data):
     chart = alt.Chart(data).mark_circle(size=125).properties(
-            width=1100,
+            width=1000,
             height=700
     )
     return chart
 
 def barChart(data):
     chart = alt.Chart(data).mark_bar().properties(
-        width=1100,
+        width=1000,
         height=700
     )
     return chart
@@ -55,6 +55,10 @@ def barChartConv(chart):
 raw = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9s3a6JIvnQdmjhCmAXajFqFeCkntFIr9v6t8aAHjJxBZjD09PZcajqwTt1Gjk5BWGzb-B0XzflX2_/pub?output=xlsx")
 #Adjust Date Time for raw data
 raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
+#raw['Clock-in'] = pd.to_timedelta(raw['Clock-in'])
+#raw['Clock-in'] = raw['Clock-in'] / pd.offsets.Minute(1)
+#raw['Hours Worked:'] =  pd.to_datetime(raw['Clock-in']) -  pd.to_datetime(raw['Clock-out'])
+
 
 #######################
 # Actual Paystub Data #
@@ -220,7 +224,7 @@ paycheckDates['Old Job Pay'] = ((paycheckDates['Hours Worked'] * 14.50) * .92)
 ########################################################################
 # Streamlit #
 ########################################################################
-st.set_page_config(page_title="Carlson Data Project", layout='wide')
+st.set_page_config(page_title="Serving Data Project")
 
 ##############
 # Containers #
