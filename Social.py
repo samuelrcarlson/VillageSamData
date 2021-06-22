@@ -234,7 +234,6 @@ st.set_page_config(page_title="Serving Data Project", layout='wide')
 header = st.beta_container()
 atAGlance = st.beta_container()
 bigGraph = st.beta_container()
-averagesApp = st.beta_container()
 sumApp = st.beta_container()
 salesBreakdownApp = st.beta_container()
 tipBreakdownApp = st.beta_container()
@@ -256,6 +255,14 @@ upcomingPaychecksExpander = atAGlance.beta_expander(label='Upcoming Paychecks:')
 with upcomingPaychecksExpander:
     upcomingPaycheckDates = paycheckDates[paycheckDates['Pay'] > today]
     st.dataframe(upcomingPaycheckDates)
+
+averagesExpander = atAGlance.beta_expander(label='Average Performance:')
+with averagesExpander:
+    st.dataframe(averagesdf, width = 1100)
+
+totalsExpander = atAGlance.beta_expander(label='Total Sale Performance:')
+with totalsExpander:
+    st.dataframe(sumdf, width = 1100)
 
 ##################
 # Financial Data #
@@ -288,12 +295,6 @@ graph = enc(financialGraph, x, y, 'Shift')
 # Render Graph
 bigGraphCol.write(graph)
 
-################
-# Averages App #
-################
-averagesApp.header("Overall Averages:")
-averagesApp.dataframe(averagesdf, width = 1100)
-
 #######################
 # Total Sales App #
 #######################
@@ -320,11 +321,6 @@ explanation.text("Takehome percentage represents how much of my earned Credit Ti
 explanation.text("Weeks where my Alcohol sand Food Sales are low; but my Tip Percentages are high raise this percentage")
 explanation.subheader("Old Job Pay")
 explanation.text("$14.50/Hour * .92 , to represent why I left my old job.")
-#####################
-# Total Sales App #
-#####################
-sumApp.header("Total Sales:")
-sumApp.dataframe(sumdf, width = 1100)
 
 
 #####################
