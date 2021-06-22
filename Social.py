@@ -75,8 +75,8 @@ rawstub['Pay Date'] = pd.to_datetime(rawstub['Pay Date'])
 ############
 # Average Hours per Shift
 avgHoursWorked = raw["Hours Worked:"].mean()
-# Average Net Sales
-avgNetSales = raw["Net Sales"].mean()
+# Average Total Sales
+avgTotalSales = (raw["Food Sales"].mean() + raw["Liquor Sales"].mean() + raw["Beer Sales"].mean() + raw["Wine Sales"].mean())
 # Average Credit Tips per Shift
 avgCrdtTips = raw["Service Charge (Credit Tips)"].mean()
 # Average Cash Tip per Shift
@@ -84,14 +84,14 @@ avgCashTips = raw["Cash Tips"].mean()
 # Average Hourly Rate (Tips only)
 avgTipPerHour = ((avgCrdtTips + avgCashTips)/avgHoursWorked)
 # Average Tip Percentage
-avgTipPercent = (((avgCrdtTips + avgCashTips) / avgNetSales) * 100)
+avgTipPercent = (((avgCrdtTips + avgCashTips) / avgTotalSales) * 100)
 
 averageData = {'Avg Hours per Shift': [avgHoursWorked],
-        'Avg Net Sales': [avgNetSales],
+        'Avg Total Sales': [avgTotalSales],
         'Avg Credit Tips': [avgCrdtTips],
         'Avg Cash Tips': [avgCashTips],
         'Avg Tips per Hour': [avgTipPerHour],
-        'Avg Tip Percent': [avgTipPercent]
+        'Avg Tip Percent (%)': [avgTipPercent]
        }
 averagesdf = pd.DataFrame(data=averageData)
 
@@ -154,9 +154,10 @@ financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialDa
 
 financialDataCols = list(financialData)
 
-#
-#
-#
+#########
+# TO DO: Filter options for graph
+# (Pairs or dropping bland data)
+#########
 
 ######################
 # Net sale Breakdown #
@@ -213,7 +214,7 @@ for i in range(len(paycheckDates)) :
     paycheckDates.loc[i, 'Payout'] = bundle['CHECK'].sum()
     paycheckDates.loc[i, 'Cashout'] = (bundle['Cash Tips'].sum())
     paycheckDates.loc[i, 'Takehome Percent'] = (paycheckDates.loc[i, 'Payout'] / (bundle['Service Charge (Credit Tips)'].sum()))
-    paycheckDates.loc[i, 'Avg Tip'] = bundle['Average Tip Percent'].mean()
+    paycheckDates.loc[i, 'Avg Tip (%)'] = bundle['Average Tip Percent'].mean() * 100
     #temp
     paycheckDates.loc[i, 'Takehome Credit Tips'] = bundle['Takehome Credit Tips'].sum()
     paycheckDates.loc[i, 'Taxes'] = bundle['Taxes'].sum()
@@ -231,6 +232,7 @@ st.set_page_config(page_title="Serving Data Project", layout='wide')
 # (Structure)#
 ##############
 header = st.beta_container()
+atAGlance = st.beta_container()
 bigGraph = st.beta_container()
 averagesApp = st.beta_container()
 sumApp = st.beta_container()
@@ -246,11 +248,20 @@ testBed = st.beta_container()
 ##########
 header.title('Serving Job Performance Project')
 
+###############
+# At A Glance #
+###############
+atAGlance.header("At-A-Glance: ")
+upcomingPaychecksExpander = atAGlance.beta_expander(label='Upcoming Paychecks:')
+with upcomingPaychecksExpander:
+    upcomingPaycheckDates = paycheckDates[paycheckDates['Pay'] > today]
+    st.dataframe(upcomingPaycheckDates)
+
 ##################
 # Financial Data #
 # Highlights!    #
 ##################
-bigGraph.header("Tracking Financial Data:");
+bigGraph.header("Compare Financial Data:");
 bigGraphCol, emptyCol = bigGraph.beta_columns(2)
 #############
 #Data Filter#
