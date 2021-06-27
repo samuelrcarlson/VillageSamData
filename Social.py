@@ -54,7 +54,7 @@ def barChartConv(chart):
 #Import Google Sheet as .xlsx through Published sheet
 raw = pd.read_excel ("https://docs.google.com/spreadsheets/d/e/2PACX-1vT9s3a6JIvnQdmjhCmAXajFqFeCkntFIr9v6t8aAHjJxBZjD09PZcajqwTt1Gjk5BWGzb-B0XzflX2_/pub?output=xlsx")
 #Adjust Date Time for raw data
-raw['Date Worked'] = pd.to_datetime(raw['Date Worked'])
+raw['Date Worked'] = pd.to_datetime(raw['Date Worked'], format = "%d/%m/%Y")
 # Calculate 'Hours Worked:' by combining recorded clock in/out times, converting to seconds and dividing by 3600 (seconds in an hour)
 # .loc[i, "#"] places column per i row
 for i in range(len(raw)) :
@@ -153,6 +153,13 @@ financialData['Average Tip Percent'] = (financialData['Cash Tips'] + financialDa
 
 financialDataCols = list(financialData)
 
+#############################################
+# Calculate Paycheck Approximation Accuracy #
+#############################################
+financialDataAccuracy = financialData[["Date Worked","CHECK", "Service Charge (Credit Tips)"]].copy()
+
+paycheckAccuracy = rawstub
+
 #########
 # TO DO: Filter options for graph
 # (Pairs or dropping bland data)
@@ -183,17 +190,17 @@ shiftBreakdownChart = stackedChart.mark_bar(size = 75).encode(
 #################
 # Tip Breakdown #
 #################
-tipBreakdown = raw[["Date Worked", "Net Sales", "Service Charge (Credit Tips)", "Cash Tips"]].copy()
+tipBreakdown = financialData[["Date Worked", "Net Sales", "Service Charge (Credit Tips)", "Takehome Credit Tips", "Cash Tips"]].copy()
 tipBreakdown['Average Tip Percentage'] = (tipBreakdown['Service Charge (Credit Tips)'] + tipBreakdown['Cash Tips']) / tipBreakdown['Net Sales']
 
 stackedTipChart = alt.Chart(tipBreakdown).transform_fold(
-  ["Service Charge (Credit Tips)", "Cash Tips"],
+  ["Takehome Credit Tips", "Cash Tips"],
   as_=['Tip', 'Tips']
 ).mark_bar(size = 9).encode(
   x='Date Worked:T',
   y='Tips:Q',
   color='Tip:N',
-  tooltip=["Date Worked", "Average Tip Percentage", "Service Charge (Credit Tips)", "Cash Tips"]).properties(
+  tooltip=["Date Worked", "Average Tip Percentage", "Takehome Credit Tips", "Cash Tips"]).properties(
     width=1100,
     height=400
 )
