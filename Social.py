@@ -290,7 +290,7 @@ settings =  bigGraphCol.expander('Graph Settings')
 # Filter X Axis
 x = settings.selectbox('X-Axis: (Default to Date Worked to represent performance over time)',financialDataCols, 0)
 # Filter Y Axis
-y = settings.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 3)
+y = settings.selectbox('Y-Axis: (Default to Net Sales to represent overall sales performance)', financialDataCols, 17)
 
 # Sets data source as financialData dataframe
 financialGraph = scatterPlot(financialData)
