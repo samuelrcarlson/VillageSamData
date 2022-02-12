@@ -237,14 +237,14 @@ st.set_page_config(page_title="Serving Data Project", layout='wide')
 # Containers #
 # (Structure)#
 ##############
-header = st.container()
-atAGlance = st.container()
-paycheckApp = st.container()
-bigGraph = st.container()
-sumApp = st.container()
-salesBreakdownApp = st.container()
-tipBreakdownApp = st.container()
-footer = st.container()
+header = st.beta_container()
+atAGlance = st.beta_container()
+paycheckApp = st.beta_container()
+bigGraph = st.beta_container()
+sumApp = st.beta_container()
+salesBreakdownApp = st.beta_container()
+tipBreakdownApp = st.beta_container()
+footer = st.beta_container()
 
 ##########
 # Header #
