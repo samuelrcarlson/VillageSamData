@@ -237,14 +237,14 @@ st.set_page_config(page_title="Serving Data Project", layout='wide')
 # Containers #
 # (Structure)#
 ##############
-header = st.beta_container()
-atAGlance = st.beta_container()
-paycheckApp = st.beta_container()
-bigGraph = st.beta_container()
-sumApp = st.beta_container()
-salesBreakdownApp = st.beta_container()
-tipBreakdownApp = st.beta_container()
-footer = st.beta_container()
+header = st.container()
+atAGlance = st.container()
+paycheckApp = st.container()
+bigGraph = st.container()
+sumApp = st.container()
+salesBreakdownApp = st.container()
+tipBreakdownApp = st.container()
+footer = st.container()
 
 ##########
 # Header #
@@ -255,16 +255,16 @@ header.title('Serving Job Performance Project')
 # At A Glance #
 ###############
 atAGlance.header("At-A-Glance: ")
-upcomingPaychecksExpander = atAGlance.beta_expander('Upcoming Paychecks:', expanded=True)
+upcomingPaychecksExpander = atAGlance.expander('Upcoming Paychecks:', expanded=True)
 with upcomingPaychecksExpander:
     upcomingPaycheckDates = paycheckDates[paycheckDates['Pay'] >= today]
     st.dataframe(upcomingPaycheckDates)
 
-averagesExpander = atAGlance.beta_expander('Average Performance:', expanded=True)
+averagesExpander = atAGlance.expander('Average Performance:', expanded=True)
 with averagesExpander:
     st.dataframe(averagesdf, width = 1100)
 
-totalsExpander = atAGlance.beta_expander('Total Sale Performance:', expanded=True)
+totalsExpander = atAGlance.expander('Total Sale Performance:', expanded=True)
 with totalsExpander:
     st.dataframe(sumdf, width = 1100)
 
@@ -273,11 +273,11 @@ with totalsExpander:
 # Highlights!    #
 ##################
 bigGraph.header("Compare Financial Data:");
-bigGraphCol, emptyCol = bigGraph.beta_columns(2)
+bigGraphCol, emptyCol = bigGraph.columns(2)
 #############
 #Data Filter#
 #############
-settings =  bigGraphCol.beta_expander('Graph Settings')
+settings =  bigGraphCol.expander('Graph Settings')
 # Filter Date Range
 #startDate = settings.date_input('Start Date', datetime.date(2021, 5, 1))
 #endDate = settings.date_input('End Date', date.today())
@@ -314,7 +314,7 @@ salesBreakdownApp.write(shiftBreakdownChart)
 # Paycheck App #
 ################
 paycheckApp.header('Paycheck Approximations:')
-paycheckGuess = paycheckApp.beta_expander('Paycheck Approximation Data for all Shifts:')
+paycheckGuess = paycheckApp.expander('Paycheck Approximation Data for all Shifts:')
 with paycheckGuess:
     st.dataframe(paycheckDates, width = 1300)
     st.subheader("'Payout' represents the approximate Take-home income after all deductions and taxes")
@@ -326,7 +326,7 @@ with paycheckGuess:
     st.text("Weeks where my Alcohol sand Food Sales are low; but my Tip Percentages are high raise this percentage")
     st.subheader("Old Job Pay")
     st.text("$14.50/Hour * .92 , to represent why I left my old job.")
-paystubData = paycheckApp.beta_expander('Actual Paycheck Data:')
+paystubData = paycheckApp.expander('Actual Paycheck Data:')
 with paystubData:
     st.dataframe(rawstub)
 
@@ -340,7 +340,7 @@ tipBreakdownApp.write(stackedTipChart)
 ##################
 # Raw Dataframes #
 ##################
-with footer.beta_expander('Dataframes'):
+with footer.expander('Dataframes'):
     # Raw Data from Google Form
     st.write("Raw Data from Google Form:")
     st.dataframe(raw)
