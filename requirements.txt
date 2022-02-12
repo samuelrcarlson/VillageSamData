@@ -1,1 +1,2 @@
 openpyxl == 3.0.7
+streamlit -- 1.5.1
