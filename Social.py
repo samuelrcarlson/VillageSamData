@@ -231,7 +231,7 @@ paycheckDates['Old Job Pay'] = ((paycheckDates['Hours Worked'] * 14.50) * .92)
 ########################################################################
 # Streamlit #
 ########################################################################
-st.set_page_config(page_title="Serving Data Project", layout='wide')
+st.set_page_config(page_title="Serving Data Project")
 
 ##############
 # Containers #
